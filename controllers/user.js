@@ -81,7 +81,21 @@ const deleteUser = async (req,res) => {
     }
 };
 
+// Get all Users
+const getAllUsers = async (req, res) => {
+    try {
+        // Retrieve all users from the database
+        const users = await User.find();
+
+        // Return the list of users as a JSON response
+        res.json(users);
+    } catch (error) {
+        // Handle errors
+        res.status(500).send(error.message);
+    }
+};
 module.exports = {
+    getAllUsers,
     getUserById,
     createUser,
     updateUserPassword,
