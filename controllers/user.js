@@ -66,9 +66,18 @@ const updateUserPassword = async (req,res) => {
 };
 
 // Delete a user
+const deleteUser = async (req,res) => {
+    try {
+        await User.deleteOne({_id: req.params.userID});
+        res.json({message: "User Deleted"});
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
 
 module.exports = {
     getUsers,
     createUser,
-    updateUserPassword
+    updateUserPassword,
+    deleteUser
 };
