@@ -14,7 +14,7 @@ const {
 } = require("./controllers/user");
 
 router.get("/", async (req,res) => {
-    res.send("Lets build our CRUID API!");
+    res.send("CRUD API FOR MONGODB!");
 });
 
 router.get("/api/users/:userID", getUserById);
