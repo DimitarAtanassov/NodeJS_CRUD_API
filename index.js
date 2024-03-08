@@ -1,4 +1,5 @@
-/* Where our imports live and how we connect to our database */
+// index.js
+
 const express = require("express");
 const router = require("./router");
 const mongoose = require("mongoose");
@@ -10,7 +11,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(router);
 
 async function connectToDatabase() {
   try {
@@ -19,6 +19,9 @@ async function connectToDatabase() {
       useUnifiedTopology: true,
     });
     console.log("Connected to MongoDB");
+    app.listen(PORT, () => {
+      console.log(`Listening on Port ${PORT}`);
+    });
   } catch (err) {
     console.error("Error connecting to MongoDB:", err);
     process.exit(1); // Exit the process if connection fails
@@ -28,6 +31,4 @@ async function connectToDatabase() {
 // Call the connectToDatabase function to establish connection
 connectToDatabase();
 
-app.listen(PORT, () => {
-  console.log(`Listening on Port ${PORT}`);
-});
+app.use(router);
