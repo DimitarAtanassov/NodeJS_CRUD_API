@@ -7,7 +7,7 @@
 // Imports
 const router = require("express").Router();
 const {
-    getUsers, 
+    getUserById, 
     createUser, 
     updateUserPassword,
     deleteUser
@@ -17,13 +17,13 @@ router.get("/", async (req,res) => {
     res.send("Lets build our CRUID API!");
 });
 
-router.get("/users", getUsers);
+router.get("/api/users/:userID", getUserById);
 
-router.post("/signup", createUser);
+router.post("/api/users", createUser);
 
-router.put("/users/:userID", updateUserPassword);
+router.put("/api/users/:userID", updateUserPassword);
 
-router.delete("/users/:userID", deleteUser);
+router.delete("/api/users/:userID", deleteUser);
 
 
 

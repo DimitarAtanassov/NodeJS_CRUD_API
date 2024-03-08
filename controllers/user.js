@@ -4,42 +4,48 @@
 */
 const User = require("../model/user");
 
-// Read functionallity
-const getUsers = async (req, res) => {
-    try{
-        const users = await User.find();
-        res.json(users);
+const getUserById = async (req, res) => {
+    try {
+      // Retrieve user by ID from the database
+      const user = await User.findById(req.params.id);
+  
+      // Check if the user with the specified ID exists
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      // Send the user data as a JSON response
+      res.json(user);
+    } catch (error) {
+      // Handle errors
+      res.status(500).send(error.message);
     }
-    catch (err) {
-        res.status(500).send(err);
-    }
-}
+  };
+  
 
 // Creates a User
-const createUser = async (req,res) => {
+const createUser = async (req, res) => {
     try {
         // Create newUser
         const newUser = new User({
-            username : req.body.username,
+            username: req.body.username,
             email: req.body.email,
             password: req.body.password
         });
-        
+
         // Save newUser
         await newUser.save();
-        
-        // Return the newly created user a JSON res
+
+        // Return the newly created user as JSON response
         res.json(newUser);
     } catch (error) {
-        // Error handling during for user creation done here
+        // Error handling for user creation done here
 
         // Return 500 for internal server error with the error message
         res.status(500).send(error.message);
     }
-
-    await newUser.save();
-    res.json(newUser);
 };
+
 
 // Update a User
 const updateUserPassword = async (req,res) => {
@@ -76,7 +82,7 @@ const deleteUser = async (req,res) => {
 };
 
 module.exports = {
-    getUsers,
+    getUserById,
     createUser,
     updateUserPassword,
     deleteUser
