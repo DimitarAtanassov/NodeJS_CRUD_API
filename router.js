@@ -6,7 +6,7 @@
 
 // Imports
 const router = require("express").Router();
-const {getUsers, createUser} = require("./controllers/user");
+const {getUsers, createUser, updateUserPassword} = require("./controllers/user");
 
 router.get("/", async (req,res) => {
     res.send("Lets build our CRUID API!");
@@ -15,6 +15,8 @@ router.get("/", async (req,res) => {
 router.get("/users", getUsers);
 
 router.post("/signup", createUser);
+
+router.put("/changepassword/:userID", updateUserPassword);
 
 
 

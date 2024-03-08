@@ -41,15 +41,34 @@ const createUser = async (req,res) => {
     res.json(newUser);
 };
 
-// Read a User
-
-
 // Update a User
-
+const updateUserPassword = async (req,res) => {
+    try {
+        const updatedUser = await User.findOneAndUpdate(
+            {_id: req.params.userID},
+            {
+                $set: {
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: req.body.password
+                }
+            },
+            {new: true}
+        );
+        if (!updatedUser) {
+            return res.status(404).json({message:"User not found"});
+        }
+    
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
 
 // Delete a user
 
 module.exports = {
     getUsers,
-    createUser
+    createUser,
+    updateUserPassword
 };
