@@ -1,4 +1,7 @@
 // user.js
+/*
+    Stores the User schema for new users that will be added to our MongoDB
+*/
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 

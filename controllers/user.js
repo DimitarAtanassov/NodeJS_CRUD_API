@@ -1,7 +1,18 @@
+// user.js
+/*
+    Stores our CRUD function logic
+*/
 const User = require("../model/user");
 
-const getUsers = (req, res) => {
-    res.send("I am the get users route");
+// Read functionallity
+const getUsers = async (req, res) => {
+    try{
+        const users = await User.find();
+        res.json(users);
+    }
+    catch (err) {
+        res.status(500).send(err);
+    }
 }
 
 // Creates a User
@@ -16,6 +27,15 @@ const createUser = async (req,res) => {
     await newUser.save();
     res.json(newUser);
 };
+
+// Read a User
+
+
+// Update a User
+
+
+// Delete a user
+
 module.exports = {
     getUsers,
     createUser

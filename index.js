@@ -1,3 +1,5 @@
+// index.js
+/* Where our imports live and how we connect to our database */
 const express = require("express");
 const router = require("./router");
 const mongoose = require("mongoose");
