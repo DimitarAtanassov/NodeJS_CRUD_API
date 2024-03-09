@@ -7,7 +7,7 @@ This API provides endpoints for performing CRUD (Create, Read, Update, Delete) o
 1. Clone this repository:
 
     ```bash
-    git clone https://github.com/your-username/mongodb-crud-api.git
+    git clone https://github.com/DimitarAtanassov/mongodb-crud-api.git
     ```
 
 2. Install dependencies:
