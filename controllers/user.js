@@ -2,7 +2,9 @@
 /*
     Stores our CRUD function logic
 */
+const bcrypt = require('bcrypt');   // Going to hash password with it
 const User = require("../model/user");
+const {validatePassword, validateUsername, validateEmail} = require('../utils/validators');
 
 const getUserById = async (req, res) => {
     try {
@@ -26,11 +28,28 @@ const getUserById = async (req, res) => {
 // Creates a User
 const createUser = async (req, res) => {
     try {
+        // Validation
+        if(!validatePassword(req.body.password)){
+            return res.status(404).json({message:"Invalid password"});
+        }
+
+        if(!validateUsername(req.body.username))
+        {
+            return res.status(404).json({message:"Invalid Username"});
+        }
+
+        if(!validateEmail(req.body.email))
+        {
+            return res.status(404).json({message:"Invalid Email"})
+        }
+        // Hash password before storing
+        const hashedPassword = await bcrypt.hash(req.body.password,10);
+        
         // Create newUser
         const newUser = new User({
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password
+            password: hashedPassword
         });
 
         // Save newUser
@@ -45,6 +64,7 @@ const createUser = async (req, res) => {
         res.status(500).send(error.message);
     }
 };
+
 
 
 // Update a User
