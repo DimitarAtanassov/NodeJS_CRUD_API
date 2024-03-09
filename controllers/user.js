@@ -45,7 +45,7 @@ const createUser = async (req, res) => {
         
         // Check if email already exists
         const emailInUse = await emailExists(req.body.email);
-        if (emailExists)
+        if (emailInUse)
         {
             return res.status(400).json({ message: "Email already exists"})
         }
