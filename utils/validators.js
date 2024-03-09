@@ -1,6 +1,6 @@
 
 const bcrypt = require('bcrypt');
-const User = require('./models/User');
+const User = require('../model/user');
 // Validpassword: 1 Lowecase, 1 uppercase, 1 digit, and length of atleast 6.
 const validatePassword = (password) => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
