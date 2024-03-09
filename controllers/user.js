@@ -4,7 +4,7 @@
 */
 const bcrypt = require('bcrypt');   // Going to hash password with it
 const User = require("../model/user");
-const {validatePassword, validateUsername, validateEmail} = require('../utils/validators');
+const {validatePassword, validateUsername, validateEmail, emailExists} = require('../utils/validators');
 
 const getUserById = async (req, res) => {
     try {
@@ -30,17 +30,24 @@ const createUser = async (req, res) => {
     try {
         // Validation
         if(!validatePassword(req.body.password)){
-            return res.status(404).json({message:"Invalid password"});
+            return res.status(406).json({message:"Invalid password"});
         }
 
         if(!validateUsername(req.body.username))
         {
-            return res.status(404).json({message:"Invalid Username"});
+            return res.status(406).json({message:"Invalid Username"});
         }
 
         if(!validateEmail(req.body.email))
         {
-            return res.status(404).json({message:"Invalid Email"})
+            return res.status(406).json({message:"Invalid Email"})
+        }
+        
+        // Check if email already exists
+        const emailInUse = await emailExists(req.body.email);
+        if (emailExists)
+        {
+            return res.status(400).json({ message: "Email already exists"})
         }
         // Hash password before storing
         const hashedPassword = await bcrypt.hash(req.body.password,10);
