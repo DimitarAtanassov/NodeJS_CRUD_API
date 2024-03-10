@@ -11,7 +11,8 @@ const {
     createUser, 
     updateUserPassword,
     deleteUser,
-    getAllUsers
+    getAllUsers,
+    login
 } = require("./controllers/user");
 
 router.get("/", async (req,res) => {
@@ -22,6 +23,7 @@ router.get("/api/users/:userID", getUserById);
 router.get("/api/users/", getAllUsers);
 
 router.post("/api/users", createUser);
+router.post("/api/users/login", login);
 
 router.put("/api/users/:userID", updateUserPassword);
 
