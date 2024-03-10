@@ -4,8 +4,9 @@
 */
 const bcrypt = require('bcrypt');   // Going to hash password with it
 const User = require("../model/user.model");
+const jwt = require("jsonwebtoken");
 const {validatePassword, validateUsername, validateEmail, emailExists, usernameExists} = require('../utils/validators');
-
+require('dotenv').config();
 const getUserById = async (req, res) => {
     try {
       // Retrieve user by ID from the database
