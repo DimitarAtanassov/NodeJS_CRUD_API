@@ -3,8 +3,8 @@
     Stores our CRUD function logic
 */
 const bcrypt = require('bcrypt');   // Going to hash password with it
-const User = require("../model/user");
-const {validatePassword, validateUsername, validateEmail, emailExists} = require('../utils/validators');
+const User = require("../model/user.model");
+const {validatePassword, validateUsername, validateEmail, emailExists, usernameExists} = require('../utils/validators');
 
 const getUserById = async (req, res) => {
     try {
@@ -41,6 +41,12 @@ const createUser = async (req, res) => {
         if(!validateEmail(req.body.email))
         {
             return res.status(406).json({message:"Invalid Email"})
+        }
+        // Check if username already exists
+        const usernameInUse = await usernameExists(req.body.username);
+        if (usernameInUse)
+        {
+            return res.status(400).json({message: "Username already exists"});
         }
         
         // Check if email already exists
@@ -97,6 +103,32 @@ const updateUserPassword = async (req,res) => {
         res.status(500).send(error.message);
     }
 };
+
+const login = async (req,res) => {
+    try {
+        const {username,password} = req.body;
+        const user = await User.findOne({username});
+        
+        if(!user) {
+            return res.status(404).json({message: "User not found"});
+        }
+        
+        const passwordCheck = await bcrypt.compare(password,user.password);
+        if(!passwordCheck) {
+            return res.status(401).json({ message: 'Invalid password'});
+        }
+
+        // Generate JWT Token
+        const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
+
+        // Login Auth Completed
+        res.status(200).json({message: 'Login Successful', token});
+    } catch (error) {
+        console.error('Error Loggin In:', error.message);
+        res.status(500).json({message: 'Internal server error'});
+    }
+};
+
 
 // Delete a user
 const deleteUser = async (req,res) => {

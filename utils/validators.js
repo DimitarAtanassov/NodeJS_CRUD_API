@@ -6,7 +6,7 @@
 
 // Imports 
 const bcrypt = require('bcrypt');
-const User = require('../model/user');
+const User = require('../model/user.model');
 
 // Valid password: 1 Lowecase, 1 uppercase, 1 digit, and length of atleast 6.
 const validatePassword = (password) => {
@@ -15,9 +15,15 @@ const validatePassword = (password) => {
 };
 
 // Valid Username: length greather than 2, and no spaces.
+// Username must not be in use already
 const validateUsername = (username) => {
     return username.length > 2 && !/\s/.test(username);
-}
+};
+
+const usernameExists = async (username) => {
+    const existingUsername = await User.findOne({username});
+    return !!existingUsername;
+};   
 
 
 /* 
@@ -25,7 +31,7 @@ const validateUsername = (username) => {
     Followed by non empty domain part (part after @), followed by a dot, 
     followed by a non-empty top-level domain part 
     
-    Email must already not be in use
+    Email must not be in use already
 */
 const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,5 +55,6 @@ module.exports = {
     validatePassword,
     validateEmail,
     validateUsername,
-    emailExists
+    emailExists,
+    usernameExists
 }
