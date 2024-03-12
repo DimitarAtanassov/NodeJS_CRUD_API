@@ -13,7 +13,9 @@ const createJobApp = async (req, res) => {
       });
   
       await newJobApp.save();
+      console.log("Beeb")
       res.status(201).json(newJobApp); // Return newly created job application data
+      console.log("Boob")
     } catch (error) {
       console.error('Error creating job application:', error.message);
       res.status(500).json({ message: 'Internal Server Error' });
