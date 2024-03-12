@@ -13,7 +13,7 @@ const createJobApp = async (req, res) => {
       });
   
       await newJobApp.save();
-      return res.status(201).json(newJobApp); // Return newly created job application data
+      res.status(201).json(newJobApp); // Return newly created job application data
     } catch (error) {
       console.error('Error creating job application:', error.message);
       res.status(500).json({ message: 'Internal Server Error' });
@@ -26,7 +26,7 @@ const getAllJobApps = async (req, res) => {
 
     const jobApplications = await JobApplication.find({ user: userId });
 
-    return res.json(jobApplications); // Return job applications data
+    res.json(jobApplications); // Return job applications data
   } catch (error) {
     console.error('Error fetching job applications:', error.message);
     res.status(500).json({ message: 'Internal server error' });
