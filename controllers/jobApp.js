@@ -54,7 +54,7 @@ const getAllJobAppsByUserId = async (req, res) => {
 
 const updateJobAppStatus = async (req,res) => {
   const jobId = req.params.id;
-  const {status} = req.body.status;
+  const {status} = req.body;
   try {
     const updatedJobApp = await JobApp.findByIdAndUpdate(jobId, { status }, { new: true });
 
