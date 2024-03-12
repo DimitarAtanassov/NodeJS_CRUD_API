@@ -23,6 +23,18 @@ const createJobApplication = async (req, res) => {
     }
 };
 
+const getAllJobAppsByUserId = async (req,res) => {
+  try{
+    const userId = req.userId; 
+    const jobApps = await JobApp.find({user:userId});
+    res.status(200).json({jobApps});
+  
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
 module.exports = {
-    createJobApplication
+    createJobApplication,
+    getAllJobAppsByUserId
 };

@@ -15,7 +15,8 @@ const {
     login
 } = require("./controllers/user");
 const {
-    createJobApplication
+    createJobApplication,
+    getAllJobAppsByUserId
 } = require("./controllers/jobApp");
 const verifyToken = require('./utils/auth');
 
@@ -33,5 +34,5 @@ router.get("/api/users/", verifyToken, getAllUsers);
 
 // Job application routes
 router.post("/api/users/jobapps", verifyToken, createJobApplication); // Assuming you want to protect job application creation with authentication
-
+router.get("/api/users/jobapps", verifyToken, getAllJobAppsByUserId);
 module.exports = router;
