@@ -1,4 +1,3 @@
-// jobApp.model.js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -17,7 +16,7 @@ const jobAppSchema = new Schema({
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
         required: true
     },
     status: {
