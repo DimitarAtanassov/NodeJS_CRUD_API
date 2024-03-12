@@ -27,9 +27,10 @@ const createJobApp = async (req, res) => {
 const getAllJobApps = async (req, res) => {
   try {
     const userId = req.query.userId;
-
+    
     const jobApplications = await JobApplication.find({ user: userId });
-
+    console.log(jobApplications)
+    console.log(hit)
     res.json(jobApplications); // Return job applications data
   } catch (error) {
     console.error('Error fetching job applications:', error.message);
