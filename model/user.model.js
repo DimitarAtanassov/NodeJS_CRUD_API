@@ -26,7 +26,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    jobApplications: [{ type: Schema.Types.ObjectId, ref: 'JobApplication' }]
+    jobApplications: [{ type: Schema.Types.ObjectId, ref: 'JobApp' }]
 });
 
 module.exports = mongoose.model('User', userSchema);
