@@ -26,7 +26,7 @@ const createJobApp = async (req, res) => {
 
 const getAllJobApps = async (req, res) => {
   try {
-    const userId = req.query.userId;
+    const { userId } = req.body; // Access userId from the request body
     console.log(userId);
     console.log("Brah");
     const jobApplications = await JobApplication.find({ user: userId });
