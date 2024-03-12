@@ -15,24 +15,22 @@ const {
     login
 } = require("./controllers/user");
 const {createJobApp,getAllJobApps} = require('./controllers/jobApp')
-const authUser = require('./utils/auth')
+const verifyToken = require('./utils/auth');
 
 router.get("/", async (req,res) => {
     res.send("CRUD API FOR MONGODB!");
 });
 
-router.get("/api/users/:userID", getUserById);
-router.get("/api/users/", getAllUsers);
+
 
 router.post("/api/users", createUser);
 router.post("/api/users/login", login);
-
-router.put("/api/users/:userID", updateUserPassword);
-
-router.delete("/api/users/:userID", deleteUser);
 // Authentication middleware 
-router.use(authUser);   
-
+router.use(verifyToken);
+router.put("/api/users/:userID", updateUserPassword);
+router.delete("/api/users/:userID", deleteUser);
+router.get("/api/users/:userID", getUserById);
+router.get("/api/users/", getAllUsers);
 // Job App Routes (Protected)
 
 
