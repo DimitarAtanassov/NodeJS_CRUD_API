@@ -1,5 +1,5 @@
 // jobapp.js
-const JobApp = require("../model/jobapp.model");
+const JobApp = require("../model/jobApp.model");
 
 const createJobApplication = async (req, res) => {
     try {
