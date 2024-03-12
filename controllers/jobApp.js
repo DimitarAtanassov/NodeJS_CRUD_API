@@ -39,6 +39,7 @@ const getAllJobAppsByUserId = async (req, res) => {
 
     // Extract job applications from the user object
     const jobApplications = user.jobApplications.map(jobApp => ({
+      _id: jobApp._id,
       company: jobApp.company,
       title: jobApp.title,
       link: jobApp.link,
