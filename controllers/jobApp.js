@@ -26,19 +26,16 @@ const createJobApp = async (req, res) => {
 
 const getAllJobApps = async (req, res) => {
   try {
-    const { userId } = req.body; // Access userId from the request body
-    console.log(userId);
-    console.log("Brah");
+    const userId = req.userId; // Access userId from the authentication middleware
+    
     const jobApplications = await JobApplication.find({ user: userId });
-    console.log(jobApplications)
-    console.log(hit)
+    
     res.json(jobApplications); // Return job applications data
   } catch (error) {
     console.error('Error fetching job applications:', error.message);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 module.exports = {
   createJobApp,
   getAllJobApps,
