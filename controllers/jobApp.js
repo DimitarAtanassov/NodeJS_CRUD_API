@@ -26,7 +26,7 @@ const createJobApp = async (req, res) => {
 
 const getAllJobApps = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.query.userId;
 
     const jobApplications = await JobApplication.find({ user: userId });
 
