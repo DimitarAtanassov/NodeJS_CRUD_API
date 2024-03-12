@@ -112,6 +112,7 @@ const login = async (req,res) => {
         console.log(password);
         console.log(user.password);
         if(!user) {
+            console.log("Wtf")
             return res.status(404).json({message: "User not found"});
         }
         
