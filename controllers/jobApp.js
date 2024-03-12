@@ -26,12 +26,24 @@ const createJobApplication = async (req, res) => {
   }
 };
 
-const getAllJobAppsByUserId = async (req,res) => {
-  try{
-    const userId = req.userId; 
-    const jobApps = await JobApp.find({user:userId});
-    res.status(200).json({jobApps});
-  
+const getAllJobAppsByUserId = async (req, res) => {
+  try {
+    // Extract the user's ID from the request
+    const userId = req.userId; // Assuming you're using JWT authentication and the user ID is stored in the request object
+
+    // Query the User collection to retrieve the user document
+    const user = await User.findById(userId).populate('jobApplications');
+
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Extract job applications from the user document
+    const jobApplications = user.jobApplications;
+
+    // Return job applications as a response
+    res.status(200).json({ jobApplications });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
