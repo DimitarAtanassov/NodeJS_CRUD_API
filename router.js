@@ -34,10 +34,10 @@ router.delete("/api/users/:userID", deleteUser);
 router.use(authUser);   
 
 // Job App Routes (Protected)
-router.post('/api/users/jobApps',createJobApp); // Create Job App
+
 
 router.get('/api/users/jobApps', getAllJobApps); //Get all Job Apps of user
-
+router.post('/api/users/jobApps',createJobApp); // Create Job App
 
 
 

@@ -26,10 +26,11 @@ const createJobApp = async (req, res) => {
 
 const getAllJobApps = async (req, res) => {
   try {
+    console.log("Hey")
     const userId = req.userId; // Access userId from the authentication middleware
-    
+    console.log("UserID gotted")
     const jobApplications = await JobApplication.find({ user: userId });
-    
+    console.log("jobApps Found")
     res.json(jobApplications); // Return job applications data
   } catch (error) {
     console.error('Error fetching job applications:', error.message);
