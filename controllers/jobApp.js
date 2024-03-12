@@ -4,7 +4,7 @@ const JobApp = require("../model/jobApp.model");
 const createJobApplication = async (req, res) => {
     try {
         const { company, title, link } = req.body;
-        const userId = req.user.userId; // Assuming you're using JWT authentication and the user ID is stored in the request object
+        const userId = req.userId; // Assuming you're using JWT authentication and the user ID is stored in the request object
 
         // Create a new job application
         const newJobApp = new JobApp({
