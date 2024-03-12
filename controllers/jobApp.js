@@ -1,5 +1,5 @@
 const JobApplication = require('../model/jobApp.model');
-
+const User = require('../model/user.model');
 const createJobApp = async (req, res) => {
   try {
     const { company, title, link } = req.body;
