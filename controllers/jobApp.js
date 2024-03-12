@@ -13,7 +13,7 @@ const createJobApp = async (req, res) => {
     });
   
     await newJobApp.save();
-
+    let user = await User.findById(userId);
     // Once the job application is saved, also associate it with the user
     await User.findByIdAndUpdate(userId, { $push: { jobApplications: newJobApp._id } });
     
