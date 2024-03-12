@@ -1,26 +1,28 @@
 const JobApplication = require('../model/jobApp.model');
 
 const createJobApp = async (req, res) => {
-    try {
-      const { company, title, link } = req.body;
-      const userId = req.userId; // Access userId from req object
+  try {
+    const { company, title, link } = req.body;
+    const userId = req.userId; // Access userId from req object
   
-      const newJobApp = new JobApplication({
-        company,
-        title,
-        link,
-        user: userId, // Assign userId to the job application
-      });
+    const newJobApp = new JobApplication({
+      company,
+      title,
+      link,
+      user: userId, // Assign userId to the job application
+    });
   
-      await newJobApp.save();
-      console.log("Beeb")
-      res.status(201).json(newJobApp); // Return newly created job application data
-      console.log("Boob")
-    } catch (error) {
-      console.error('Error creating job application:', error.message);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
+    await newJobApp.save();
+
+    // Once the job application is saved, also associate it with the user
+    await User.findByIdAndUpdate(userId, { $push: { jobApplications: newJobApp._id } });
+    
+    res.status(201).json(newJobApp); // Return newly created job application data
+  } catch (error) {
+    console.error('Error creating job application:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
 const getAllJobApps = async (req, res) => {
   try {
