@@ -1,43 +1,28 @@
-const JobApplication = require('../model/jobApp.model');
-const User = require('../model/user.model');
-const createJobApp = async (req, res) => {
-  try {
-    const { company, title, link } = req.body;
-    const userId = req.userId; // Access userId from req object
-  
-    const newJobApp = new JobApplication({
-      company,
-      title,
-      link,
-      user: userId, // Assign userId to the job application
-    });
-  
-    await newJobApp.save();
-    let user = await User.findById(userId);
-    // Once the job application is saved, also associate it with the user
-    await User.findByIdAndUpdate(userId, { $push: { jobApplications: newJobApp._id } });
-    
-    res.status(201).json(newJobApp); // Return newly created job application data
-  } catch (error) {
-    console.error('Error creating job application:', error.message);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
+// jobapp.js
+const JobApp = require("../model/jobapp.model");
+
+const createJobApplication = async (req, res) => {
+    try {
+        const { company, title, link } = req.body;
+        const userId = req.user.userId; // Assuming you're using JWT authentication and the user ID is stored in the request object
+
+        // Create a new job application
+        const newJobApp = new JobApp({
+            company,
+            title,
+            link,
+            user: userId // Associate the job application with the user
+        });
+
+        // Save the new job application to the database
+        await newJobApp.save();
+
+        res.status(201).json({ message: "Job application created successfully", jobApp: newJobApp });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
 };
 
-const getAllJobApps = async (req, res) => {
-  try {
-    console.log("Hey")
-    const userId = req.userId; // Access userId from the authentication middleware
-    console.log("UserID gotted")
-    const jobApplications = await JobApplication.find({ user: userId });
-    console.log("jobApps Found")
-    res.json(jobApplications); // Return job applications data
-  } catch (error) {
-    console.error('Error fetching job applications:', error.message);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-};
 module.exports = {
-  createJobApp,
-  getAllJobApps,
+    createJobApplication
 };
