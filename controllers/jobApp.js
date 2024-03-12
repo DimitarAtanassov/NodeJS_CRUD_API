@@ -51,7 +51,24 @@ const getAllJobAppsByUserId = async (req, res) => {
   }
 };
 
+const updateJobAppStatus = async (req,res) => {
+  const jobId = req.params.id;
+  const {status} = req.body.status;
+  try {
+    const updatedJobApp = await JobApp.findByIdAndUpdate(jobId, { status }, { new: true });
+
+    if(!updatedJobApp){
+      return res.status(404).json({ message: 'Job application not found' });
+    }
+    res.status(200).json({ message: 'Job application status updated successfully', jobApp: updatedJobApp });
+  } catch (error) {
+    console.error('Error updating job application status:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
 module.exports = {
     createJobApplication,
-    getAllJobAppsByUserId
+    getAllJobAppsByUserId,
+    updateJobAppStatus
 };
