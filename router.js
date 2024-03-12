@@ -30,9 +30,8 @@ router.post("/api/users/login", login);
 router.put("/api/users/:userID", verifyToken, updateUserPassword);
 router.delete("/api/users/:userID", verifyToken, deleteUser);
 router.get("/api/users/:userID", verifyToken, getUserById);
-router.get("/api/users/", verifyToken, getAllUsers);
 
 // Job application routes
 router.post("/api/users/jobapps", verifyToken, createJobApplication); // Assuming you want to protect job application creation with authentication
-router.get("/api/users/jobapps", verifyToken, getAllJobAppsByUserId);
+router.get("/api/jobapps", verifyToken, getAllJobAppsByUserId);
 module.exports = router;
