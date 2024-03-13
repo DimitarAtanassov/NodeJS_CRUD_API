@@ -1,4 +1,4 @@
-// user.js
+// user.model.js
 /*
     Stores the User schema for new users that will be added to our MongoDB
 */
@@ -9,6 +9,7 @@ const Schema = mongoose.Schema;
 // Username
 // Password
 // email
+// jobApplications: Array of ObjectIDs that reference the JobApplication documents in the database.
 const userSchema = new Schema({
     username: {
         type: String,
@@ -26,6 +27,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    // ref: 'JobApp' specifies that these ObjectedIds refer to documents in the JobApp collection.
     jobApplications: [{ type: Schema.Types.ObjectId, ref: 'JobApp' }]
 });
 

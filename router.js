@@ -28,12 +28,13 @@ router.get("/", async (req,res) => {
 // User routes
 router.post("/api/users", createUser);
 router.post("/api/users/login", login);
+// Protected
 router.put("/api/users/:userID", verifyToken, updateUserPassword);
 router.delete("/api/users/:userID", verifyToken, deleteUser);
 router.get("/api/users/:userID", verifyToken, getUserById);
 
-// Job application routes
-router.post("/api/users/jobapps", verifyToken, createJobApplication); // Assuming you want to protect job application creation with authentication
+// Job application routes (Protected)
+router.post("/api/users/jobapps", verifyToken, createJobApplication); 
 router.get("/api/jobapps", verifyToken, getAllJobAppsByUserId);
 router.put("/api/jobapps/:id/status", verifyToken, updateJobAppStatus); // Route for updating job application status
 module.exports = router;
