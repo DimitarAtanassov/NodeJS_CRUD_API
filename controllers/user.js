@@ -190,5 +190,4 @@ module.exports = {
     updateUserPassword,
     deleteUser,
     login,
-    refreshToken
 };
