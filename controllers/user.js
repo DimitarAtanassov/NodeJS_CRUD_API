@@ -9,7 +9,16 @@
 const bcrypt = require('bcrypt');   // Going to hash password with it
 const User = require("../model/user.model");
 const jwt = require("jsonwebtoken");
-const {validatePassword, validateUsername, validateEmail, emailExists, usernameExists} = require('../utils/validators');
+const crypto = require('crypto');
+const Verfication = require("../model/verification.model");
+const {
+    validatePassword, 
+    validateUsername, 
+    validateEmail, 
+    emailExists, 
+    usernameExists,
+    sendVerificationEmail
+} = require('../utils/validators');
 require('dotenv').config();
 
 // Functions
@@ -76,6 +85,21 @@ const createUser = async (req, res) => {
             email: req.body.email,
             password: hashedPassword
         });
+
+        // Email Verfication 
+        // Generate verficationToken
+        const verficationToken = crypto.randomBytes(64).toString('hex');
+        
+        // Create new Verfication document in our collection
+        await Verfication.create({
+            userId: newUser._id,
+            token: verficationToken
+        });
+        
+        // Send the verfication email
+        await sendVerificationEmail(newUser.email, verficationToken);
+        
+
 
         // Save newUser
         await newUser.save();

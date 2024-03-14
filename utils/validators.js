@@ -7,7 +7,7 @@
 // Imports 
 const bcrypt = require('bcrypt');
 const User = require('../model/user.model');
-
+const nodemailer = require('nodemailer');
 // Valid password: 1 Lowecase, 1 uppercase, 1 digit, and length of atleast 6.
 const validatePassword = (password) => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
@@ -50,11 +50,33 @@ const emailExists = async (email) => {
     return !!existingEmail;
 }
 
+const sendVerificationEmail = async (email, token) => {
+    const transporter = nodemailer.createTransport({
+        // Configure your email provider here
+        // Example for Gmail:
+        service: 'gmail',
+        auth: {
+            user: 'dimitar789558@gmail.com',
+            pass: 'R@ssen40'
+        }
+    });
+
+    const mailOptions = {
+        from: 'dimitar789558@gmail.com',
+        to: email,
+        subject: 'Email Verification',
+        html: `Click <a href="${token}">here</a> to verify your email address.`
+    };
+
+    await transporter.sendMail(mailOptions);
+};
+
 
 module.exports = {
     validatePassword,
     validateEmail,
     validateUsername,
     emailExists,
-    usernameExists
+    usernameExists,
+    sendVerificationEmail
 }
