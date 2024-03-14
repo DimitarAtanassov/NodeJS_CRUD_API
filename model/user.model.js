@@ -27,6 +27,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    active: {
+        type: Boolean,
+        default: false,
+
+    },
     // ref: 'JobApp' specifies that these ObjectedIds refer to documents in the JobApp collection.
     jobApplications: [{ type: Schema.Types.ObjectId, ref: 'JobApp' }]
 });
