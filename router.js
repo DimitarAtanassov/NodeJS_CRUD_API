@@ -36,7 +36,7 @@ router.get("/", async (req,res) => {
 router.post("/api/users", createUser);
 router.post("/api/users/login", login);
 // Create a route to handle email verification
-router.get('/verify/:token', async (req, res) => {
+router.get('/api/verify/:token', async (req, res) => {
     try {
         const token = req.params.token;
 
