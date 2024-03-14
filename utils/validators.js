@@ -51,6 +51,8 @@ const emailExists = async (email) => {
 }
 
 const sendVerificationEmail = async (email, token) => {
+    const baseUrl = 'https://crud-api-c680d4c27735.herokuapp.com'; // Base URL of your API
+    const verificationLink = `${baseUrl}/verify/${token}`;
     const transporter = nodemailer.createTransport({
         // Configure your email provider here
         // Example for Gmail:
@@ -65,7 +67,7 @@ const sendVerificationEmail = async (email, token) => {
         from: 'restrackermailer@gmail.com',
         to: email,
         subject: 'Email Verification',
-        html: `Click <a href="${token}">here</a> to verify your email address.`
+        html: `Click <a href="${verificationLink}">here</a> to verify your email address.`
     };
 
     await transporter.sendMail(mailOptions);
