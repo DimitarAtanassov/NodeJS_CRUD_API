@@ -139,11 +139,14 @@ const login = async (req,res) => {
         if(!passwordCheck) {
             return res.status(401).json({ message: 'Invalid password'});
         }
-
+        console.log("Hit1");
         // Generate JWT Token
         const accessToken = generateAccessToken(user._id);
+        console.log("Hit2");
+        console.log("At:", accessToken);
         const refreshToken = generateRefreshToken(user._id);
-
+        console.log("hit3");
+        console.log("rt:", refreshToken);
         // Store refresh token in HTTP-only cookie
         res.cookie('refreshToken', refreshToken, {httpOnly: true});
         // Login Auth Completed

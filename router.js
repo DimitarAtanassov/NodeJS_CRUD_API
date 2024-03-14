@@ -33,14 +33,15 @@ router.get("/", async (req,res) => {
 // User routes
 router.post("/api/users", createUser);
 router.post("/api/users/login", login);
-router.post("/api/users/refresh-token", refreshToken); // JWT refresh endpoint
+
 // Protected
 router.put("/api/users/:userID", verifyToken, updateUserPassword);
 router.delete("/api/users/:userID", verifyToken, deleteUser);
 router.get("/api/users/:userID", verifyToken, getUserById);
 
 // Job application routes (Protected)
-router.post("/api/users/jobapps", verifyToken, createJobApplication); 
+router.post("/api/users/jobapps", verifyToken, createJobApplication);
+router.post("/api/users/refresh-token", refreshToken); // JWT refresh endpoint 
 router.get("/api/jobapps", verifyToken, getAllJobAppsByUserId);
 router.put("/api/jobapps/:id/status", verifyToken, updateJobAppStatus); // Route for updating job application status
 module.exports = router;
