@@ -45,7 +45,7 @@ const refreshToken = (req, res, next) => {
         return res.status(401).json({ message: 'Refresh token not found' });
     }
 
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    jwt.verify(refreshToken, process.env.SECRET_KEY, (err, decoded) => {
         if (err) {
             console.error('Error verifying refresh token:', err.message);
             return res.status(401).json({ message: 'Invalid refresh token' });
