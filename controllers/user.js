@@ -9,6 +9,7 @@
 const bcrypt = require('bcrypt');   // Going to hash password with it
 const User = require("../model/user.model");
 const jwt = require("jsonwebtoken");
+const {refreshToken} = require('../utils/auth');
 const {validatePassword, validateUsername, validateEmail, emailExists, usernameExists} = require('../utils/validators');
 require('dotenv').config();
 
@@ -116,7 +117,17 @@ const updateUserPassword = async (req,res) => {
         res.status(500).send(error.message);
     }
 };
+
+
 // Backend Login Authentication
+const generateAccessToken = (userId) => {
+    return jwt.sign({ userId }, process.env.SECRET_KEY, { expiresIn: '6h' });
+};
+
+const generateRefreshToken = (userId) => {
+    return jwt.sign({ userId }, process.env.SECRET_KEY);
+};
+
 const login = async (req,res) => {
     try {
         const {username,password} = req.body;
@@ -131,15 +142,19 @@ const login = async (req,res) => {
         }
 
         // Generate JWT Token
-        const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY);
+        const accessToken = generateAccessToken(user._id);
+        const refreshToken = generateRefreshToken(user._id);
 
+        // Store refresh token in HTTP-only cookie
+        res.cookie('refreshToken', refreshToken, {httpOnly: true});
         // Login Auth Completed
-        res.status(200).json({ message: 'Login Successful', token, userId: user._id });
+        res.status(200).json({ message: 'Login Successful', accessToken, userId: user._id });
     } catch (error) {
         console.error('Error Loggin In:', error.message);
         res.status(500).json({message: 'Internal server error'});
     }
 };
+
 
 
 // Delete a user
@@ -175,5 +190,6 @@ module.exports = {
     createUser,
     updateUserPassword,
     deleteUser,
-    login
+    login,
+    refreshToken
 };

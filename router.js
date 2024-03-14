@@ -28,6 +28,7 @@ router.get("/", async (req,res) => {
 // User routes
 router.post("/api/users", createUser);
 router.post("/api/users/login", login);
+router.post("/api/users/refresh-token", refreshToken); // JWT refresh endpoint
 // Protected
 router.put("/api/users/:userID", verifyToken, updateUserPassword);
 router.delete("/api/users/:userID", verifyToken, deleteUser);
