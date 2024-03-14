@@ -19,7 +19,7 @@ const {
     getAllJobAppsByUserId,
     updateJobAppStatus
 } = require("./controllers/jobApp");
-const verifyToken = require('./utils/auth');
+const {verifyToken,refreshToken} = require('./utils/auth');
 
 router.get("/", async (req,res) => {
     res.send("CRUD API FOR MONGODB!");

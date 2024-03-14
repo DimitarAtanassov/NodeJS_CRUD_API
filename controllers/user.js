@@ -9,7 +9,6 @@
 const bcrypt = require('bcrypt');   // Going to hash password with it
 const User = require("../model/user.model");
 const jwt = require("jsonwebtoken");
-const {refreshToken} = require('../utils/auth');
 const {validatePassword, validateUsername, validateEmail, emailExists, usernameExists} = require('../utils/validators');
 require('dotenv').config();
 
