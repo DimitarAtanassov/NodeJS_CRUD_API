@@ -56,13 +56,13 @@ const sendVerificationEmail = async (email, token) => {
         // Example for Gmail:
         service: 'gmail',
         auth: {
-            user: 'dimitar789558@gmail.com',
+            user: 'restrackermailer@gmail.com',
             pass: 'R@ssen40'
         }
     });
 
     const mailOptions = {
-        from: 'dimitar789558@gmail.com',
+        from: 'restrackermailer@gmail.com',
         to: email,
         subject: 'Email Verification',
         html: `Click <a href="${token}">here</a> to verify your email address.`
