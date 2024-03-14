@@ -73,6 +73,28 @@ const sendVerificationEmail = async (email, token) => {
     await transporter.sendMail(mailOptions);
 };
 
+const sendPasswordResetEmail = async (email,token) => {
+    const baseUrl = 'https://crud-api-c680d4c27735.herokuapp.com'; // Base URL of your API
+    const resetPasswordLink = `${baseUrl}/reset-password?token=${token}`;
+    const transporter = nodemailer.createTransport({
+        // Configure your email provider here
+        // Example for Gmail:
+        service: 'gmail',
+        auth: {
+            user: 'restrackermailer@gmail.com',
+            pass: 'hyaw kxze wrpq mbfa'
+        }
+    });
+
+    const mailOptions = {
+        from: 'restrackermailer@gmail.com',
+        to: email,
+        subject: 'Password Reset',
+        html: `Click <a href="${resetPasswordLink}">here</a> to reset your password.`
+    };
+
+    await transporter.sendMail(mailOptions);
+}
 
 module.exports = {
     validatePassword,
@@ -80,5 +102,6 @@ module.exports = {
     validateUsername,
     emailExists,
     usernameExists,
-    sendVerificationEmail
+    sendVerificationEmail,
+    sendPasswordResetEmail
 }

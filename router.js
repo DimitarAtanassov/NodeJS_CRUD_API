@@ -12,7 +12,9 @@ const {
     updateUserPassword,
     deleteUser,
     getAllUsers,
-    login
+    login,
+    forgotPassword,
+    resetPassword
 } = require("./controllers/user");
 const {
     createJobApplication,
@@ -36,6 +38,7 @@ router.get("/", async (req,res) => {
 router.post("/api/users", createUser);
 router.post("/api/users/login", login);
 // Create a route to handle email verification
+// TODO: MOVE FUNCTION LOGIC OUTSIDE OF HERE 
 router.get('/verify/:token', async (req, res) => {
     try {
         const token = req.params.token;
@@ -72,6 +75,11 @@ router.get('/verify/:token', async (req, res) => {
     }
 });
 
+// API endpoint to request a password reset
+router.post('/api/forgot-password', forgotPassword);
+
+// API endpoint to reset the password
+router.post('/reset-password/:token', resetPassword);
 // Protected
 router.put("/api/users/:userID", verifyToken, updateUserPassword);
 router.delete("/api/users/:userID", verifyToken, deleteUser);

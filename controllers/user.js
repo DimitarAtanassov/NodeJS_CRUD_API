@@ -17,7 +17,8 @@ const {
     validateEmail, 
     emailExists, 
     usernameExists,
-    sendVerificationEmail
+    sendVerificationEmail,
+    sendPasswordResetEmail
 } = require('../utils/validators');
 require('dotenv').config();
 
@@ -164,14 +165,9 @@ const login = async (req,res) => {
         if(!passwordCheck) {
             return res.status(401).json({ message: 'Invalid password'});
         }
-        console.log("Hit1");
         // Generate JWT Token
         const accessToken = generateAccessToken(user._id);
-        console.log("Hit2");
-        console.log("At:", accessToken);
         const refreshToken = generateRefreshToken(user._id);
-        console.log("hit3");
-        console.log("rt:", refreshToken);
         // Store refresh token in HTTP-only cookie
         res.cookie('refreshToken', refreshToken, {httpOnly: true});
         // Login Auth Completed
@@ -208,6 +204,58 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+const forgotPassword = async(req,res) => {
+    const { email } = req.body;
+    try {
+        const user = await User.findOne({email});
+
+        if(!user){
+            return res.status(404).json({message: "User Not Found"});
+        }
+
+        const token = crypto.randomBytes(64).toString('hex');
+
+        await Verfication.create({
+            userId: user._id,
+            token: token
+        });
+
+        await sendPasswordResetEmail(user.email,token);
+        res.status(200).json({ message: 'Password reset email sent successfully' });
+    } catch (error) {
+        console.error("Error Requesting password reset:", error);
+        res.status(500).json({message: 'Internal Server Error'});
+    }
+}
+
+// Function to reset the password
+const resetPassword = async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+
+        // Find the verification document by token
+        const verification = await Verification.findOne({ token });
+
+        if (!verification) {
+            return res.status(400).json({ message: 'Invalid or expired token' });
+        }
+
+        // Update the user's password (hash the new password)
+        const user = await User.findById(verification.userId);
+        const hashedPassword = await bcrypt.hash(newPassword, 10); // Hash the new password
+        user.password = hashedPassword;
+        await user.save();
+
+        // Delete the verification token
+        await Verification.deleteOne({ token });
+
+        res.status(200).json({ message: 'Password reset successful' });
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 
 // Exports
 //===============================================================
@@ -218,4 +266,6 @@ module.exports = {
     updateUserPassword,
     deleteUser,
     login,
+    forgotPassword,
+    resetPassword
 };
