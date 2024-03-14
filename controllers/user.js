@@ -92,13 +92,13 @@ const createUser = async (req, res) => {
         const verficationToken = crypto.randomBytes(64).toString('hex');
         
         // Create new Verfication document in our collection
-        // await Verfication.create({
-        //     userId: newUser._id,
-        //     token: verficationToken
-        // });
+        await Verfication.create({
+            userId: newUser._id,
+            token: verficationToken
+        });
         
-        // // Send the verfication email
-        // await sendVerificationEmail(newUser.email, verficationToken);
+        // Send the verfication email
+        await sendVerificationEmail(newUser.email, verficationToken);
         
 
 
