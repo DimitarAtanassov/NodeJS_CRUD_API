@@ -247,7 +247,7 @@ const resetPassword = async (req, res) => {
         await user.save();
 
         // Delete the verification token
-        await Verification.deleteOne({ token });
+        await Verfication.deleteOne({ token });
 
         res.status(200).json({ message: 'Password reset successful' });
     } catch (error) {
