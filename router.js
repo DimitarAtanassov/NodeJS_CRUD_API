@@ -79,7 +79,7 @@ router.get('/verify/:token', async (req, res) => {
 router.post('/api/forgot-password', forgotPassword);
 
 // API endpoint to reset the password
-router.get('/reset-password/:token', resetPassword);
+router.post('/reset-password/:token', resetPassword); // Change this to POST
 // Protected
 router.put("/api/users/:userID", verifyToken, updateUserPassword);
 router.delete("/api/users/:userID", verifyToken, deleteUser);
