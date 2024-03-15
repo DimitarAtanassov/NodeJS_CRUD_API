@@ -75,7 +75,7 @@ const sendVerificationEmail = async (email, token) => {
 
 const sendPasswordResetEmail = async (email,token) => {
     const baseUrl = 'https://crud-api-c680d4c27735.herokuapp.com'; // Base URL of your API
-    const resetPasswordLink = `${baseUrl}/reset-password?token=${token}`;
+    const resetPasswordLink = `${baseUrl}/reset-password/${token}`;
     const transporter = nodemailer.createTransport({
         // Configure your email provider here
         // Example for Gmail:
