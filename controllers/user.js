@@ -204,16 +204,22 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+// This function is run when the user has forgotten their password and need to reset it
+// Used to create a verification token and sends the token to the user's email using nodemailer
 const forgotPassword = async(req,res) => {
-    const { email } = req.body;
+    const { email } = req.body; // Get the email from the requests body 
     try {
-        const user = await User.findOne({email});
+        const user = await User.findOne({email});   //find a user based on their meial
 
         if(!user){
             return res.status(404).json({message: "User Not Found"});
         }
-
-        const token = crypto.randomBytes(64).toString('hex');
+        
+        /*
+            Creates a random hexadecimal string of length 128
+                -Each byte in a hexadecimal is represented by 2 characters             
+        */
+        const token = crypto.randomBytes(64).toString('hex'); //
 
         await Verfication.create({
             userId: user._id,

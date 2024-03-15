@@ -50,6 +50,7 @@ const emailExists = async (email) => {
     return !!existingEmail;
 }
 
+// Send a verification email with a link for a user to click to active their account
 const sendVerificationEmail = async (email, token) => {
     const baseUrl = 'https://crud-api-c680d4c27735.herokuapp.com'; // Base URL of your API
     const verificationLink = `${baseUrl}/verify/${token}`;
