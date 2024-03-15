@@ -234,7 +234,7 @@ const resetPassword = async (req, res) => {
         const { token, newPassword } = req.body;
 
         // Find the verification document by token
-        const verification = await Verification.findOne({ token });
+        const verification = await Verfication.findOne({ token });
 
         if (!verification) {
             return res.status(400).json({ message: 'Invalid or expired token' });
