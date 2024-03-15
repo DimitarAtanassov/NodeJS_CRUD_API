@@ -92,4 +92,3 @@ To run this project, you will need to add the following environment variables to
 
 - `auth.js`: User authentication middleware using JSON Web Token (JWT)
 - `validators.js`: Utility functions for input validation
-
