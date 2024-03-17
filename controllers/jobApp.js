@@ -59,7 +59,7 @@ const getAllJobAppsByUserId = async (req, res) => {
       link: jobApp.link,
       status: jobApp.status
     }));
-    const counts = await getStatusCounts(); // Call getStatusCounts here
+    const counts = await getStatusCounts(userId); // Call getStatusCounts here
     res.status(200).json({ jobApplications, counts });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error: error.message });
@@ -118,6 +118,8 @@ const getStatusCounts = async (userId) => {
       throw error;
   }
 };
+
+/* Create Delete Job Application Function */
 // Functions
 //===============================================================
 module.exports = {
