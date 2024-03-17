@@ -59,8 +59,8 @@ const getAllJobAppsByUserId = async (req, res) => {
       link: jobApp.link,
       status: jobApp.status
     }));
-
-    res.status(200).json({ jobApplications });
+    const counts = await getStatusCounts(); // Call getStatusCounts here
+    res.status(200).json({ jobApplications, counts });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
@@ -83,6 +83,41 @@ const updateJobAppStatus = async (req,res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+const getStatusCounts = async (userId) => {
+  try {
+      // Use MongoDB aggregation to group job applications by status and calculate counts
+      const statusCounts = await JobApp.aggregate([
+          { $match: { user: userId } }, // Filter job apps by user ID
+          { $group: { _id: '$status', count: { $sum: 1 } } }
+      ]);
+
+      // Construct an object to store status counts
+      const counts = {
+          pending: 0,
+          accepted: 0,
+          rejected: 0
+      };
+
+      // Iterate through the statusCounts array and populate the counts object
+      statusCounts.forEach(status => {
+          if (status._id === 'pending') {
+              counts.pending = status.count;
+          } else if (status._id === 'accepted') {
+              counts.accepted = status.count;
+          } else if (status._id === 'rejected') {
+              counts.rejected = status.count;
+          }
+      });
+
+      // Return the counts object
+      return counts;
+  } catch (error) {
+      // Handle any errors
+      console.error('Error fetching status counts:', error);
+      throw error;
+  }
+};
 // Functions
 //===============================================================
 module.exports = {
