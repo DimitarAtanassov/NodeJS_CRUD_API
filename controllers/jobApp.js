@@ -92,6 +92,7 @@ const getStatusCounts = async (userId) => {
           { $group: { _id: '$status', count: { $sum: 1 } } }
       ]);
 
+      console.log(statusCounts);
       // Construct an object to store status counts
       const counts = {
           pending: 0,
