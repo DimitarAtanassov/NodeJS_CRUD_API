@@ -86,7 +86,8 @@ const updateJobAppStatus = async (req,res) => {
 
 const getStatusCounts = async (userId) => {
   try {
-      console.log("hit")  
+      console.log("hit");
+      console.log(userId); 
     // Use MongoDB aggregation to group job applications by status and calculate counts
       const statusCounts = await JobApp.aggregate([
           { $match: { user: userId } }, // Filter job apps by user ID
