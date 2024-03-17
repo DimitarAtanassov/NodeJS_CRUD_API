@@ -30,7 +30,7 @@ const verifyToken = (req, res, next) => {
         }
 
         // If verification succeeds, attach the decoded user ID to the request object
-        req.userId = decoded.userId;
+        req.userId = mongoose.Types.ObjectId(decoded.userId);
         next();
     });
 };
