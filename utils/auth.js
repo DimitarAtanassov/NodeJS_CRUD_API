@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+const mongoose = require("mongoose");
 /*
     Verifies JWT included in the request header
 */
