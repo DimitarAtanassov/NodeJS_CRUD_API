@@ -14,12 +14,13 @@ const {
     getAllUsers,
     login,
     forgotPassword,
-    resetPassword
+    resetPassword,
 } = require("./controllers/user");
 const {
     createJobApplication,
     getAllJobAppsByUserId,
-    updateJobAppStatus
+    updateJobAppStatus,
+    deleteJobApplication
 } = require("./controllers/jobApp");
 const {verifyToken,refreshToken} = require('./utils/auth');
 const User = require('./model/user.model');
@@ -90,4 +91,5 @@ router.post("/api/users/jobapps", verifyToken, createJobApplication);
 router.post("/api/users/refresh-token", refreshToken); // JWT refresh endpoint 
 router.get("/api/jobapps", verifyToken, getAllJobAppsByUserId);
 router.put("/api/jobapps/:id/status", verifyToken, updateJobAppStatus); // Route for updating job application status
+router.delete("/api/jobapps/:id", verifyToken, deleteJobApplication);
 module.exports = router;

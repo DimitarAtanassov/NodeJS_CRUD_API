@@ -122,11 +122,34 @@ const getStatusCounts = async (userId) => {
   }
 };
 
+const deleteJobApplication = async (req,res) => {
+  const jobId = req.params.id;
+  try{
+    const deletedJobApp = await JobApp.findByIdAndDelete(jobId);
+    if (deletedJobApp) {
+      // Remove the deleted job application ID from the corresponding user's jobApplications array 
+      await User.findByIdAndUpdate(
+        deletedJobApp.user,
+        {$pull : {jobApplications: jobId}},
+        { new: true}
+      );
+      res.status(204).send()
+    }else{
+      res.status(404).json({message: 'Job application to be deleted not found'});
+    }
+  }catch (error) {
+    console.error('Error deleting job application:', error);  // What is seen in backend
+    res.status(500).json({ message: 'Internal server error' }); // What is seen in frontend
+    throw error;
+  }
+}
+
 /* Create Delete Job Application Function */
 // Functions
 //===============================================================
 module.exports = {
     createJobApplication,
     getAllJobAppsByUserId,
-    updateJobAppStatus
+    updateJobAppStatus,
+    deleteJobApplication
 };
