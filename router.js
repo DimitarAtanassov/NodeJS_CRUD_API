@@ -38,6 +38,7 @@ router.get("/", async (req,res) => {
 // User routes
 router.post("/api/users", createUser);
 router.post("/api/users/login", login);
+
 // Create a route to handle email verification
 // TODO: MOVE FUNCTION LOGIC OUTSIDE OF HERE 
 router.get('/verify/:token', async (req, res) => {

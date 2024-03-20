@@ -173,7 +173,7 @@ const login = async (req,res) => {
         // Login Auth Completed
         res.status(200).json({ message: 'Login Successful', accessToken, userId: user._id });
     } catch (error) {
-        console.error('Error Loggin In:', error.message);
+        console.error('Error Logging In:', error.message);
         res.status(500).json({message: 'Internal server error'});
     }
 };
