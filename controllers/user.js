@@ -116,8 +116,73 @@ const createUser = async (req, res) => {
     }
 };
 
+const updateProfilePicture = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
+        // Check if the request contains an image URL
+        if (!req.body.imageUrl) {
+            return res.status(400).json({ message: 'No image URL provided' });
+        }
 
+        // Update the user's profile image with the provided URL
+        user.profileImage = req.body.imageUrl;
+        await user.save();
+
+        res.json({ message: 'Profile picture updated successfully' });
+    } catch (error) {
+        console.error('Error updating profile picture:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+const updateSkills = async (req,res) => {
+    try
+    {
+        const userId = req.userId;
+        const user = await User.findById(userId);
+        if (!user) 
+        {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const {skills} = req.body;
+
+        user.skills = skills;
+        await user.save();
+
+        res.json({ message: 'Skills updated successfully' });
+    }
+
+    catch (error)
+    {
+        console.error('Error updating skills:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+// Get skills of a user
+const getUserSkills = async (req, res) => {
+    try {
+        // Retrieve user by ID from the database
+        const userId = req.userId;
+        const user = await User.findById(userId);
+        // Check if the user with the specified ID exists
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+  
+        // Send the user's skills as a JSON response
+        res.json({ skills: user.skills });
+    } catch (error) {
+        // Handle errors
+        res.status(500).send(error.message);
+    }
+};
 // Update a User
 const updateUserPassword = async (req,res) => {
     try {
@@ -171,10 +236,10 @@ const login = async (req,res) => {
         // Store refresh token in HTTP-only cookie
         res.cookie('refreshToken', refreshToken, {httpOnly: true});
         // Login Auth Completed
-        res.status(200).json({ message: 'Login Successful', accessToken, userId: user._id });
+        return res.status(200).json({ message: 'Login Successful', accessToken, userId: user._id });
     } catch (error) {
         console.error('Error Logging In:', error.message);
-        res.status(500).json({message: 'Internal server error'});
+        return res.status(500).json({message: 'Internal server error'});
     }
 };
 
@@ -273,5 +338,8 @@ module.exports = {
     deleteUser,
     login,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    updateProfilePicture,
+    updateSkills,
+    getUserSkills
 };

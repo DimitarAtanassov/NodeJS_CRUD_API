@@ -32,6 +32,18 @@ const userSchema = new Schema({
         default: false,
 
     },
+    profileImage: {
+        type: String,
+        default: 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg'
+    },
+    skills : {
+        type: [String],
+        default: []
+    },
+    socialMediaLinks : {
+        type : [String],
+        default : []
+    },
     // ref: 'JobApp' specifies that these ObjectedIds refer to documents in the JobApp collection.
     jobApplications: [{ type: Schema.Types.ObjectId, ref: 'JobApp' }]
 });

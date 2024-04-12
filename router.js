@@ -15,6 +15,9 @@ const {
     login,
     forgotPassword,
     resetPassword,
+    updateProfilePicture,
+    updateSkills,
+    getUserSkills
 } = require("./controllers/user");
 const {
     createJobApplication,
@@ -38,7 +41,6 @@ router.get("/", async (req,res) => {
 // User routes
 router.post("/api/users", createUser);
 router.post("/api/users/login", login);
-
 // Create a route to handle email verification
 // TODO: MOVE FUNCTION LOGIC OUTSIDE OF HERE 
 router.get('/verify/:token', async (req, res) => {
@@ -77,6 +79,7 @@ router.get('/verify/:token', async (req, res) => {
     }
 });
 
+
 // API endpoint to request a password reset
 router.post('/api/forgot-password', forgotPassword);
 
@@ -86,7 +89,9 @@ router.post('/reset-password', resetPassword); // Change this to POST
 router.put("/api/users/:userID", verifyToken, updateUserPassword);
 router.delete("/api/users/:userID", verifyToken, deleteUser);
 router.get("/api/users/:userID", verifyToken, getUserById);
-
+router.put("/api/users/:userID/profile-picture", verifyToken, updateProfilePicture);
+router.put("/api/users/:userID/skills", verifyToken, updateSkills);
+router.get("/api/users/:userID/skills", verifyToken, getUserSkills);
 // Job application routes (Protected)
 router.post("/api/users/jobapps", verifyToken, createJobApplication);
 router.post("/api/users/refresh-token", refreshToken); // JWT refresh endpoint 

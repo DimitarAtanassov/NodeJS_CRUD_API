@@ -133,7 +133,7 @@ const deleteJobApplication = async (req,res) => {
         {$pull : {jobApplications: jobId}},
         { new: true}
       );
-      res.status(204).send()
+      return res.status(204).json({message: 'Job Application Deleted'})
     }else{
       res.status(404).json({message: 'Job application to be deleted not found'});
     }
