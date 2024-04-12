@@ -149,9 +149,14 @@ const updateSkills = async (req,res) => {
         {
             return res.status(404).json({ message: 'User not found' });
         }
-
+        
         const {skills} = req.body;
 
+        // Ensure skills is an array
+        if (!Array.isArray(skills)) {
+            skills = [skills]; // Convert single skill to an array
+        }
+        
         user.skills = skills;
         await user.save();
 
