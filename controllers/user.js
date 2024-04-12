@@ -150,7 +150,7 @@ const updateSkills = async (req,res) => {
             return res.status(404).json({ message: 'User not found' });
         }
         
-        let {skills} = req.body.skills;
+        let { skills } = req.body;
         console.log(skills);
 
         // Ensure skills is an array
