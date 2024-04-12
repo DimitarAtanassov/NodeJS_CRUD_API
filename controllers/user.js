@@ -157,8 +157,7 @@ const updateSkills = async (req,res) => {
         if (!Array.isArray(skills)) {
             skills = [skills]; // Convert single skill to an array
         }
-        console.log(skills);
-        user.skills = skills;
+        user.skills = [...user.skills, ...skills];
         await user.save();
 
         res.json({ message: 'Skills updated successfully' });
