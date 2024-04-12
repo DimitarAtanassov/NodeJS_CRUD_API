@@ -28,7 +28,7 @@ require('dotenv').config();
 const getUserById = async (req, res) => {
     try {
       // Retrieve user by ID from the database
-      const user = await User.findById(req.params.id);
+      const user = await User.findById(req.userId);
   
       // Check if the user with the specified ID exists
       if (!user) {
