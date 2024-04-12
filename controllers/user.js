@@ -151,6 +151,7 @@ const updateSkills = async (req,res) => {
         }
         
         let {skills} = req.body.skills;
+        console.log(skills);
 
         // Ensure skills is an array
         if (!Array.isArray(skills)) {
