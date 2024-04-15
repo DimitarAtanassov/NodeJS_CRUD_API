@@ -40,12 +40,10 @@ const userSchema = new Schema({
         type: [String],
         default: []
     },
-    socialMediaLinks : {
-        socialMediaLinks: [{
-            source: String,
-            link: String
-        }],
-    },
+    socialMediaLinks: [{
+        source: String,
+        link: String
+    }],
     // ref: 'JobApp' specifies that these ObjectedIds refer to documents in the JobApp collection.
     jobApplications: [{ type: Schema.Types.ObjectId, ref: 'JobApp' }]
 });
