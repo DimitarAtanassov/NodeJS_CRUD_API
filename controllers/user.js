@@ -332,6 +332,29 @@ const resetPassword = async (req, res) => {
     }
 };
 
+const addUserLink = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const { source, link } = req.body;
+
+        // Check if the user exists
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Add the new social media link to the user's profile
+        user.socialMediaLinks.push({ source, link });
+        await user.save();
+
+        res.status(200).json({ message: 'Social media link added successfully', user: user });
+    } catch (error) {
+        console.error('Error adding social media link:', error);
+        res.status(500).json({ message: 'Internal Server error' });
+    }
+};
+
+
 
 // Exports
 //===============================================================
@@ -346,5 +369,6 @@ module.exports = {
     resetPassword,
     updateProfilePicture,
     updateSkills,
-    getUserSkills
+    getUserSkills,
+    addUserLink
 };
