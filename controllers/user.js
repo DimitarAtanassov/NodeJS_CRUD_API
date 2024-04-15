@@ -354,7 +354,24 @@ const addUserLink = async (req, res) => {
     }
 };
 
-
+// Get skills of a user
+const getUserLinks = async (req, res) => {
+    try {
+        // Retrieve user by ID from the database
+        const userId = req.userId;
+        const user = await User.findById(userId);
+        // Check if the user with the specified ID exists
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+  
+        // Send the user's Social Media Links as a JSON response
+        res.json({ socialMediaLinks: user.socialMediaLinks });
+    } catch (error) {
+        // Handle errors
+        res.status(500).send(error.message);
+    }
+};
 
 // Exports
 //===============================================================
@@ -370,5 +387,6 @@ module.exports = {
     updateProfilePicture,
     updateSkills,
     getUserSkills,
-    addUserLink
+    addUserLink,
+    getUserLinks
 };

@@ -18,7 +18,8 @@ const {
     updateProfilePicture,
     updateSkills,
     getUserSkills,
-    addUserLink
+    addUserLink,
+    getUserLinks
 } = require("./controllers/user");
 const {
     createJobApplication,
@@ -94,6 +95,7 @@ router.put("/api/users/:userID/profile-picture", verifyToken, updateProfilePictu
 router.put("/api/users/:userID/skills", verifyToken, updateSkills);
 router.get("/api/users/:userID/skills", verifyToken, getUserSkills);
 router.post("/api/users/:userID/links", verifyToken, addUserLink);
+router.get("/api/users/:userID/links", verifyToken, getUserLinks);
 // Job application routes (Protected)
 router.post("/api/users/jobapps", verifyToken, createJobApplication);
 router.post("/api/users/refresh-token", refreshToken); // JWT refresh endpoint 
