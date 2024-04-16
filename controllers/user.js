@@ -335,7 +335,7 @@ const resetPassword = async (req, res) => {
 const addUserLink = async (req, res) => {
     try {
         const userId = req.userId;
-        const { source, url } = req.body; 
+        const { source, link } = req.body; // Change 'url' to 'link'
 
         // Check if the user exists
         const user = await User.findById(userId);
@@ -344,7 +344,7 @@ const addUserLink = async (req, res) => {
         }
 
         // Add the new social media link to the user's profile
-        user.socialMediaLinks.push({ source, link: url }); // Use 'url' for the link property
+        user.socialMediaLinks.push({ source, link }); // Use 'link' for the link property
         await user.save();
 
         res.status(200).json({ message: 'Social media link added successfully', user: user });
@@ -353,7 +353,6 @@ const addUserLink = async (req, res) => {
         res.status(500).json({ message: 'Internal Server error' });
     }
 };
-
 
 // Get skills of a user
 const getUserLinks = async (req, res) => {
